@@ -1,0 +1,16 @@
+﻿@using Entities.Concrete
+@model List<Product>
+
+<div class="container">
+    <h1>List Of Products Name: </h1>
+
+    <div class="row">
+        @foreach (Product prd in Model)
+        {
+            <partial name="_ProductCard" model="@prd" />
+        }
+    </div>
+        
+</div>
+    
+      
