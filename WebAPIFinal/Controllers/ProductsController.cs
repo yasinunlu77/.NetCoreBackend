@@ -1,14 +1,11 @@
 ﻿using Business.Abstract;
-using Core.Utilities;
 using Entities.Concrete;
-using Entities.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
         IProductService _productService;
@@ -17,7 +14,7 @@ namespace WebAPI.Controllers
             _productService = productService;
         }
 
-        [HttpGet("GetAll")]//Alyas
+        [HttpGet("getAll")]//Alyas
         public IActionResult getAll()
         {
             var result = _productService.GetProductsDetails();
@@ -30,7 +27,8 @@ namespace WebAPI.Controllers
                 return BadRequest(result);
             } 
         }
-        [HttpGet("GetById")]//Alyas
+
+        [HttpGet("getById")]//Alyas
         public IActionResult getById(int id)
         {
             var result = _productService.GetByProductId(id);

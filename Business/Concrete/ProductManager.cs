@@ -1,9 +1,14 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Castle.Core.Resource;
+using Core.CrossCuttingConcerns.Validation.FluentValidation;
 using Core.Utilities;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
+using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +28,9 @@ namespace Business.Concrete
 
         public IResult Add(Product product)
         {
-            if(product.ProductName.Length < 2)
-            {
-                return new ErrorResult();
-            }
+
+            ValidationTool.Validate(new ProductValidator(),product);
+
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         }
@@ -54,14 +58,13 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductsDetailDto>> GetProductsDetails()
         {
-            if (DateTime.Now.Hour == 22)
+            if (DateTime.Now.Hour == 23)
             {
                 return new ErrorDataResult<List<ProductsDetailDto>>(Messages.MaintananceTime);
             }
             
             return new SuccessDataResult<List<ProductsDetailDto>>(_productDal.GetProductDetails(),Messages.ProductsListed);
         }
-
         public IResult Update(Product product)
         {
             _productDal.Update(product);
