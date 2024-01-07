@@ -2,6 +2,7 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Castle.Core.Resource;
+using Core.Aspect.Validation.FluentValidation;
 using Core.CrossCuttingConcerns.Validation.FluentValidation;
 using Core.Utilities;
 using DataAccess.Abstract;
@@ -26,10 +27,11 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
 
-            ValidationTool.Validate(new ProductValidator(),product);
+            //ValidationTool.Validate(new ProductValidator(),product);
 
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
